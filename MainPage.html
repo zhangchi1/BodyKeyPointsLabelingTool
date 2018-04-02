@@ -1,0 +1,106 @@
+<!-- Learn about this code on MDN: https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL -->
+<html>
+<head>
+    <title>Body key points labeling</title>
+    <script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<h1>Key points labeling tool</h1>
+<h3>13 key-points: 0. head, 1. left shoulder, 2. right shoulder, 3. left elbow, 4. right elbow, 5. left wrist,
+    6. right wrist, 7. left hip, 8. right hip, 9. left knee, 10. right knee, 11. left ankle, 12. right ankle
+</h3>
+<img class="preview_image" src="" style="display:none" width="600px" height="400px" id="image"/>
+<canvas id="canvas" width="600px" height="400px"></canvas>
+
+<input class="upload_image" type="file" onchange="previewFile.call(this)">
+<input type="text" size="50" onkeydown="keyCode(event)">
+<ol id="imagePoints">
+</ol>
+<button id="save">Save</button>
+<button download="info.txt" id="downloadlink">Download</button>
+<script>
+    var personIndex = 0;
+    var bodyIndex = 0;
+    var myCanvas = $("#canvas");
+    var myCanvasContext = myCanvas[0].getContext("2d");
+    var canvasImage = document.getElementById("image");
+    $("#image").click(function (e) {
+        var offset = $(this).offset();
+        var viewportOffset = this.getBoundingClientRect();
+        var top = viewportOffset.top;
+        var left = viewportOffset.left;
+        var relativeX = (e.pageX - offset.left);
+        var relativeY = Math.ceil(e.pageY - offset.top);
+        var person = Math.floor(personIndex / 13);
+        myCanvasContext.fillStyle = "#00d0ff";
+        myCanvasContext.beginPath();
+        myCanvasContext.drawImage(canvasImage, 0,0, 600, 400);
+        myCanvasContext.arc(relativeX, relativeY, 5, 0, 2 * Math.PI);
+//        canvasImage = myCanvasContext;
+        myCanvasContext.fill();
+        $('#imagePoints').append('<li>' + person + ', ' + bodyIndex + ', x:' + relativeX + ', y:' + relativeY + '</li>');
+        bodyIndex = (bodyIndex + 1) % 13;
+        personIndex += 1;
+    });
+
+    function previewFile() {
+        myCanvasContext.drawImage(document.getElementById("image"), 0,0, 600, 400);
+        if (this.files && this.files[0]) {
+            var obj = new FileReader();
+            var image = document.getElementById("image");
+            obj.onload = function (data) {
+                image.src = data.target.result;
+                image.style.display = "block";
+            }
+            obj.readAsDataURL(this.files[0]);
+        }
+    }
+
+    function keyCode(event) {
+        var x  = event.keyCode;
+//       if press the "s" key
+        if (x == 83) {
+            alert ("You pressed the s key. Skip to the next body point!");
+            var person = Math.floor(personIndex / 13);
+            $('#imagePoints').append('<li>' + person + ', ' + bodyIndex + ', x:' + 'N/A' + ', y:' + 'N/A' + '</li>');
+            bodyIndex = (bodyIndex + 1) % 13;
+            personIndex += 1;
+        } else if(x == 68) {
+            alert ("you pressed the d key, deleted the last body point!");
+            var points = document.getElementById('imagePoints');
+            points.removeChild(points.lastChild);
+            bodyIndex = (bodyIndex - 1) % 13;
+            personIndex -= 1;
+        }
+
+    }
+    $('#save').click(function () {
+        var textFile = null;
+        var textbox = [];
+        $('#imagePoints').find('li').each(function (index, point) {
+            textbox.push($(point).text());
+        });
+
+        $('#downloadlink').click(function () {
+            console.log(textbox);
+            var textDoc = document.createElement('a');
+
+            textDoc.href = 'data:attachment/text,' + encodeURI(textbox.join('\n'));
+            textDoc.target = '_blank';
+            var filename = $(".upload_image").val().split('\\').pop();
+            filename = filename.split('.')[0];
+            textDoc.download = filename + '.txt';
+            var imageDoc = document.getElementById("image");
+            imageDoc.download = filename + '.jpg';
+            imageDoc.click();
+            textDoc.click();
+
+
+        })
+    })
+
+</script>
+
+
+</body>
+</html>
