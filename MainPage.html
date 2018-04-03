@@ -1,23 +1,33 @@
 <!-- Learn about this code on MDN: https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL -->
 <html>
-<head>
+<link>
     <title>Body key points labeling</title>
     <script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
-<h1>Key points labeling tool</h1>
-<h3>13 key-points: 0. head, 1. left shoulder, 2. right shoulder, 3. left elbow, 4. right elbow, 5. left wrist,
-    6. right wrist, 7. left hip, 8. right hip, 9. left knee, 10. right knee, 11. left ankle, 12. right ankle
-</h3>
-<img class="preview_image" src="" style="display:none" width="600px" height="400px" id="image"/>
-<canvas id="canvas" width="600px" height="400px"></canvas>
+<div class="container">
+    <h1>Key points labeling tool</h1>
+    <h3>13 key-points: 0. head, 1. left shoulder, 2. right shoulder, 3. left elbow, 4. right elbow, 5. left wrist,
+        6. right wrist, 7. left hip, 8. right hip, 9. left knee, 10. right knee, 11. left ankle, 12. right ankle
+    </h3>
+    <input class="upload_image" type="file" onchange="previewFile.call(this)">
+    <input type="text" size="50" onkeydown="keyCode(event)">
+    <button id="save">Save</button>
+    <button download="info.txt" id="downloadlink">Download</button>
+    <div class="row">
+            <div class="col-lg-7">
+            <img class="preview_image" src="" style="display:none" width="600px" height="400px" id="image"/>
+            </div>
+            <div class="col-lg-5" style="border: 1px solid gray;">
+                <ul id="imagePoints" style="max-height: 380px; overflow: auto;">
+                </ul>
+            </div>
 
-<input class="upload_image" type="file" onchange="previewFile.call(this)">
-<input type="text" size="50" onkeydown="keyCode(event)">
-<ol id="imagePoints">
-</ol>
-<button id="save">Save</button>
-<button download="info.txt" id="downloadlink">Download</button>
+    </div>
+    <canvas id="canvas" width="600px" height="400px" style="padding-top:20px;padding-bottom:20px"></canvas>
+</div>
 <script>
     var personIndex = 0;
     var bodyIndex = 0;
@@ -39,6 +49,10 @@
 //        canvasImage = myCanvasContext;
         myCanvasContext.fill();
         $('#imagePoints').append('<li>' + person + ', ' + bodyIndex + ', x:' + relativeX + ', y:' + relativeY + '</li>');
+//        if (bodyIndex == 12) {
+//            $('#imagePoints').append('<hr>');
+//        }
+
         bodyIndex = (bodyIndex + 1) % 13;
         personIndex += 1;
     });
@@ -50,7 +64,7 @@
             var image = document.getElementById("image");
             obj.onload = function (data) {
                 image.src = data.target.result;
-                image.style.display = "block";
+                image.style.display = "inline-block";
             }
             obj.readAsDataURL(this.files[0]);
         }
@@ -69,10 +83,10 @@
             alert ("you pressed the d key, deleted the last body point!");
             var points = document.getElementById('imagePoints');
             points.removeChild(points.lastChild);
-            bodyIndex = (bodyIndex - 1) % 13;
+//            handle negative number mod cases -1 mod 13 = 12;
+            bodyIndex = ((bodyIndex - 1) % 13 + 13) % 13;
             personIndex -= 1;
         }
-
     }
     $('#save').click(function () {
         var textFile = null;
