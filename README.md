@@ -1,7 +1,6 @@
 # BodyKeyPointsLabelingTool
 ## A simple web based labeling tool allows user to upload an image, click the 13 body key points and download the body key points coordinates as a text file.
-## 13 key-points: 0. Head, 1. Left shoulder, 2. Left elbow, 3. Left wrist, 4. Left hip, 5. Left knee,
-                          6. Left ankle, 7. Right shoulder, 8. Right elbow, 9. Right wrist, 10. Right hip, 11. Right knee, 12. Right ankle
+## 13 key-points: 0. Head, 1. Left shoulder, 2. Left elbow, 3. Left wrist, 4. Left hip, 5. Left knee, 6. Left ankle, 7. Right shoulder, 8. Right elbow, 9. Right wrist, 10. Right hip, 11. Right knee, 12. Right ankle
 ### Instructions:
 1. Click choose file button to upload an image.
 2. Click body key points on the top image, the X and Y coordinates are shown at the bottom:
