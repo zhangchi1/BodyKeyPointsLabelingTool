@@ -1,10 +1,13 @@
 <!-- Learn about this code on MDN: https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL -->
 <html>
 <link>
-    <title>Body key points labeling</title>
-    <script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<title>Body key points labeling</title>
+<script type="application/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 <link href="KeyPointsStyle.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -19,23 +22,32 @@
     <button download="info.txt" id="downloadlink">Download</button>
 
     <div class="row">
-            <div class="col-lg-7">
+        <div class="col-lg-7">
             <img class="preview_image" src="" style="display:none" width="600px" height="400px" id="image"/>
+        </div>
+        <div class="col-lg-5" style="border: 1px solid gray;">
+            <div class="left">
+                <ul>
+                    <li>0. Head</li>
+                    <li>1. Left shoulder</li>
+                    <li>2. Right shoulder</li>
+                    <li>3. Left elbow</li>
+                    <li>4. Right elbow</li>
+                    <li>5. Left wrist</li>
+                    <li>6. Right wrist</li>
+                    <li>7. Left hip</li>
+                    <li>8. Right hip</li>
+                    <li>9. Left knee</li>
+                    <li>10. Right knee</li>
+                    <li>11. Left ankle</li>
+                    <li>12. Right ankle</li>
+                </ul>
             </div>
-            <div class="col-lg-5" style="border: 1px solid gray;">
-                <div class="left">
-                    <ul>
-                        <li>0. Head</li><li>1. Left shoulder</li><li>2. Right shoulder</li><li>3. Left elbow</li>
-                        <li>4. Right elbow</li><li>5. Left wrist</li><li>6. Right wrist</li><li>7. Left hip</li>
-                        <li>8. Right hip</li><li>9. Left knee</li><li>10. Right knee</li><li>11. Left ankle</li>
-                        <li>12. Right ankle</li>
-                    </ul>
-                </div>
-                <div class="right">
+            <div class="right">
                 <ul id="imagePoints" style="max-height: 380px; overflow: auto;" class="columns" data-columns="2">
                 </ul>
-                </div>
             </div>
+        </div>
 
     </div>
     <canvas id="canvas" width="600px" height="400px" style="padding-top:20px;padding-bottom:20px"></canvas>
@@ -57,7 +69,7 @@
         var person = Math.floor(personIndex / bodyPoints);
         myCanvasContext.fillStyle = "#00d0ff";
         myCanvasContext.beginPath();
-        myCanvasContext.drawImage(canvasImage, 0,0, 600, 400);
+        myCanvasContext.drawImage(canvasImage, 0, 0, 600, 400);
         myCanvasContext.arc(relativeX, relativeY, 5, 0, 2 * Math.PI);
 //        canvasImage = myCanvasContext;
         myCanvasContext.fill();
@@ -71,7 +83,7 @@
     });
 
     function previewFile() {
-        myCanvasContext.drawImage(document.getElementById("image"), 0,0, 600, 400);
+        myCanvasContext.drawImage(document.getElementById("image"), 0, 0, 600, 400);
         if (this.files && this.files[0]) {
             var obj = new FileReader();
             var image = document.getElementById("image");
@@ -84,20 +96,20 @@
     }
 
     function keyCode(event) {
-        var x  = event.keyCode;
+        var x = event.keyCode;
 //       if press the "s" key
         if (x == 83) {
-            alert ("You pressed the s key. Skip to the next body point!");
+            alert("You pressed the s key. Skip to the next body point!");
             var person = Math.floor(personIndex / bodyPoints);
             $('#imagePoints').append('<li>' + person + ', ' + bodyIndex + ', x:' + 'N/A' + ', y:' + 'N/A' + '</li>');
-            bodyIndex = ((bodyIndex - 1) % bodyPoints + bodyPoints) % bodyPoints;
+            bodyIndex = ((bodyIndex + 1) % bodyPoints + bodyPoints) % bodyPoints;
             personIndex += 1;
-        } else if(x == 68) {
-            alert ("you pressed the d key, deleted the last body point!");
+        } else if (x == 68) {
+            alert("you pressed the d key, deleted the last body point!");
             var points = document.getElementById('imagePoints');
             points.removeChild(points.lastChild);
 //            handle negative number mod cases -1 mod 13 = 12;
-            if(personIndex > 0) {
+            if (personIndex > 0) {
 
                 bodyIndex = ((bodyIndex - 1) % bodyPoints + bodyPoints) % bodyPoints;
                 personIndex -= 1;
