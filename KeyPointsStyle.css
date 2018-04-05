@@ -13,14 +13,15 @@
     display: inline
 }
 
+/*print html list by 2 columns*/
 /*.columns{*/
-/*-moz-column-count: 2;*/
+/*-moz-column-count: 3;*/
 /*-moz-column-gap: 20px;*/
 /*-moz-column-fill: auto;*/
-/*-webkit-column-count: 2;*/
+/*-webkit-column-count: 3;*/
 /*-webkit-column-gap: 20px;*/
 /*-webkit-column-fill: auto;*/
-/*column-count: 2;*/
+/*column-count: 3;*/
 /*column-gap: 20px;*/
 /*column-fill: auto;*/
 /*list-style-position: inside;*/
