@@ -82,9 +82,7 @@
 //        canvasImage = myCanvasContext;
         myCanvasContext.fill();
         $('#imagePoints').append('<li>' + person + ', ' + bodyIndex + ', x:' + relativeX + ', y:' + relativeY + '</li>');
-//        if (bodyIndex == 12) {
-//            $('#imagePoints').append('<hr>');
-//        }
+
 
         bodyIndex = ((bodyIndex + 1) % bodyPoints + bodyPoints) % bodyPoints;
         personIndex += 1;
@@ -108,13 +106,13 @@
         var x = event.keyCode;
 //       if press the "s" key
         if (x == 83) {
-            alert("You pressed the s key. Skip to the next body point!");
+//            alert("You pressed the s key. Skip to the next body point!");
             var person = Math.floor(personIndex / bodyPoints);
             $('#imagePoints').append('<li>' + person + ', ' + bodyIndex + ', x:' + 'N/A' + ', y:' + 'N/A' + '</li>');
             bodyIndex = ((bodyIndex + 1) % bodyPoints + bodyPoints) % bodyPoints;
             personIndex += 1;
         } else if (x == 68) {
-            alert("you pressed the d key, deleted the last body point!");
+//            alert("you pressed the d key, deleted the last body point!");
             var points = document.getElementById('imagePoints');
             points.removeChild(points.lastChild);
 //            handle negative number mod cases -1 mod 13 = 12;
@@ -131,13 +129,13 @@
     document.onkeydown = function (e) {
         var keyCode = e.keyCode;
         if(keyCode == 83) {
-            alert("You pressed the s key. Skip to the next body point!");
+//            alert("You pressed the s key. Skip to the next body point!");
             var person = Math.floor(personIndex / bodyPoints);
             $('#imagePoints').append('<li>' + person + ', ' + bodyIndex + ', x:' + 'N/A' + ', y:' + 'N/A' + '</li>');
             bodyIndex = ((bodyIndex + 1) % bodyPoints + bodyPoints) % bodyPoints;
             personIndex += 1;
         } else if (keyCode == 68) {
-            alert("you pressed the d key, deleted the last body point!");
+//            alert("you pressed the d key, deleted the last body point!");
             var points = document.getElementById('imagePoints');
             points.removeChild(points.lastChild);
 //            handle negative number mod cases -1 mod 13 = 12;
