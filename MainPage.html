@@ -16,11 +16,11 @@
     <h3>13 key-points: 0. Head, 1. Left shoulder, 2. Left elbow, 3. Left wrist, 4. Left hip, 5. Left knee,
         6. Left ankle, 7. Right shoulder, 8. Right elbow, 9. Right wrist, 10. Right hip, 11. Right knee, 12. Right ankle
     </h3>
-    <h5>Input S key to skip to the next body key point, if the current body point is not available in the image, X and Y
+    <h5>Click or type in S key to skip to the next body key point, if the current body point is not available in the image, X and Y
         coordinates will return x:N/A, y:N/A by typing S key
     </h5>
     <h5>
-        Input D key to delete the last body key point.
+        Click or type in D key to delete the last body key point.
     </h5>
     <input class="upload_image" type="file" onchange="previewFile.call(this)">
     <input type="text" size="50" onkeydown="keyCode(event)" value="Type S to skip, D to delete.">
@@ -103,6 +103,7 @@
         }
     }
 
+    //keys input event
     function keyCode(event) {
         var x = event.keyCode;
 //       if press the "s" key
@@ -125,6 +126,28 @@
             }
         }
     }
+
+    //key clicked event
+    document.onkeydown = function (e) {
+        var keyCode = e.keyCode;
+        if(keyCode == 83) {
+            alert("You pressed the s key. Skip to the next body point!");
+            var person = Math.floor(personIndex / bodyPoints);
+            $('#imagePoints').append('<li>' + person + ', ' + bodyIndex + ', x:' + 'N/A' + ', y:' + 'N/A' + '</li>');
+            bodyIndex = ((bodyIndex + 1) % bodyPoints + bodyPoints) % bodyPoints;
+            personIndex += 1;
+        } else if (keyCode == 68) {
+            alert("you pressed the d key, deleted the last body point!");
+            var points = document.getElementById('imagePoints');
+            points.removeChild(points.lastChild);
+//            handle negative number mod cases -1 mod 13 = 12;
+            if (personIndex > 0) {
+                bodyIndex = ((bodyIndex - 1) % bodyPoints + bodyPoints) % bodyPoints;
+                personIndex -= 1;
+
+            }
+        }
+    };
     $('#save').click(function () {
         var textFile = null;
         var textbox = [];
